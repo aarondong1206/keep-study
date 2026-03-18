@@ -825,44 +825,27 @@ function renderPlan() {
     `;
   }
   
-  // 三轮复习时间表（更新版）- 更详细的安排
+  // 三轮复习时间表（更新版）
   html += `
     <div class="plan-card">
-      <div class="plan-title">📅 三轮复习详细规划</div>
-      
-      <div style="margin-bottom:12px;padding:10px;background:#f0f9ff;border-radius:8px;border-left:3px solid #0ea5e9;">
-        <div style="font-weight:600;color:#0369a1;font-size:13px;">🔥 第一轮：精讲卷（现在-6月30日）</div>
-        <div style="font-size:11px;color:#475569;margin-top:4px;">
-          • 3月-4月20日：刑法（74集，56h）<br>
-          • 4月21日-5月15日：民法（86集，56h）<br>
-          • 5月16日起：开始刷刑法民法真题<br>
-          • 5月16日-5月30日：刑诉（72集，48h）<br>
-          • 5月31日-6月10日：民诉（44集，34h）<br>
-          • 6月11日-6月18日：行政（60集，44h）<br>
-          • 6月19日-6月25日：商经知（70集，54h）<br>
-          • 6月26日-6月30日：三国（39集，28h）
-        </div>
+      <div class="plan-title">📅 三轮复习规划（推荐）</div>
+      <div class="plan-stat">
+        <span class="plan-label">第一轮 · 精讲+刷题</span>
+        <span class="plan-value">3.18 - 6.30</span>
       </div>
+      <div style="font-size:11px;color:var(--text-muted);margin:-4px 0 8px 0;padding-left:8px;">5月中完成刑法民法后开始刷题，持续到考前</div>
       
-      <div style="margin-bottom:12px;padding:10px;background:#fef3c7;border-radius:8px;border-left:3px solid #f59e0b;">
-        <div style="font-weight:600;color:#b45309;font-size:13px;">📖 第二轮：背诵强化（7月1日-8月10日）</div>
-        <div style="font-size:11px;color:#475569;margin-top:4px;">
-          • 7月：背诵版课程+分章节刷题第1轮<br>
-          • 8月1日-8月10日：分章节刷题第2轮<br>
-          • 每天复习1-2章，整理错题本<br>
-          • 目标：正确率提升至65%+
-        </div>
+      <div class="plan-stat">
+        <span class="plan-label">第二轮 · 背诵强化</span>
+        <span class="plan-value">7.1 - 8.10</span>
       </div>
+      <div style="font-size:11px;color:var(--text-muted);margin:-4px 0 8px 0;padding-left:8px;">背诵卷+分章节刷题2轮+整理错题本</div>
       
-      <div style="padding:10px;background:#fce7f3;border-radius:8px;border-left:3px solid #ec4899;">
-        <div style="font-weight:600;color:#be185d;font-size:13px;">⚡ 第三轮：冲刺（8月11日-考前）</div>
-        <div style="font-size:11px;color:#475569;margin-top:4px;">
-          • 每周2-3套全真模拟卷<br>
-          • 重点复习错题本和背诵笔记<br>
-          • 考前一周：看考前聚焦/押题<br>
-          • 调整作息，熟悉考试节奏
-        </div>
+      <div class="plan-stat">
+        <span class="plan-label">第三轮 · 冲刺</span>
+        <span class="plan-value">8.11 - 9.19</span>
       </div>
+      <div style="font-size:11px;color:var(--text-muted);margin:-4px 0 0;padding-left:8px;">模拟套卷+错题回顾+考前聚焦</div>
     </div>
   `;
   
@@ -928,6 +911,49 @@ function renderPlan() {
       </div>
       <div style="margin-top:10px;padding:10px;background:#f0fdf4;border-radius:8px;font-size:12px;color:#166534;">
         📊 <strong>目标</strong>：共刷 <strong>3000-5000题</strong>，正确率 <strong>65%+</strong> 较稳妥
+      </div>
+    </div>
+  `;
+  
+  // 英语六级学习规划
+  html += `
+    <div class="plan-card" style="margin-top:20px;border-top:3px solid #10b981;">
+      <div class="plan-title">📚 英语六级学习规划</div>
+      <div style="margin-bottom:10px;padding:10px;background:#f0f9ff;border-radius:8px;border-left:3px solid #0ea5e9;">
+        <div style="font-weight:600;color:#0369a1;font-size:13px;">📖 基础阶段（现在-4月底）</div>
+        <div style="font-size:11px;color:#475569;margin-top:4px;">
+          • 词汇：每天背30-50词，核心词汇刷2-3轮<br>
+          • 语法：长难句分析每天5句<br>
+          • 听力：每天精听1篇
+        </div>
+      </div>
+      <div style="margin-bottom:10px;padding:10px;background:#fef3c7;border-radius:8px;border-left:3px solid #f59e0b;">
+        <div style="font-weight:600;color:#b45309;font-size:13px;">📈 强化阶段（5月-6月中旬）</div>
+        <div style="font-size:11px;color:#475569;margin-top:4px;">
+          • 真题练习：每周1套听力+阅读<br>
+          • 阅读：掌握技巧（仔细阅读+段落匹配+选词填空）<br>
+          • 写作：整理模板，每周写1-2篇
+        </div>
+      </div>
+      <div style="padding:10px;background:#fce7f3;border-radius:8px;border-left:3px solid #ec4899;">
+        <div style="font-weight:600;color:#be185d;font-size:13px;">⚡ 冲刺阶段（6月中旬-考前）</div>
+        <div style="font-size:11px;color:#475569;margin-top:4px;">
+          • 每周2-3套真题，计时练习<br>
+          • 作文模板背诵+练习<br>
+          • 听力高频场景词汇复习
+        </div>
+      </div>
+    </div>
+    
+    <div class="plan-card">
+      <div class="plan-title">⏰ 英语每日学习建议</div>
+      <div style="font-size:12px;line-height:1.6;color:var(--text-muted);">
+        <div style="margin-bottom:8px;">🌅 <strong>早上（30分钟）</strong>：背单词30-50个</div>
+        <div style="margin-bottom:8px;">📺 <strong>下午/晚上（1小时）</strong>：听力精听 + 真题练习</div>
+        <div style="margin-bottom:8px;">📅 <strong>周末</strong>：整套真题模拟（2.5小时）</div>
+        <div style="padding:10px;background:#f0fdf4;border-radius:8px;font-size:11px;color:#166534;">
+          💡 <strong>建议</strong>：六级和法考可同时进行，六级以单词+听力为主，真题利用碎片时间
+        </div>
       </div>
     </div>
   `;
