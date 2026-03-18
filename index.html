@@ -775,6 +775,16 @@ function renderPlan() {
       icon: '📝',
       text: `刑法学完了！继续学民法，学完后可以开始刷题。`
     });
+  } else {
+    // 计算距离开始刷题还有多少天
+    const daysToPractice = daysUntilStartPractice;
+    if (daysToPractice > 30) {
+      alerts.push({
+        type: 'tip',
+        icon: '📅',
+        text: `距离开始刷题还有 <strong>${daysToPractice} 天</strong>，目前专注学好刑法民法。`
+      });
+    }
   }
   
   // 生成HTML
@@ -914,6 +924,70 @@ function renderPlan() {
       </div>
     </div>
   `;
+  
+  // 复习方法建议
+  html += `
+    <div class="plan-card">
+      <div class="plan-title">📚 复习方法建议</div>
+      <div style="font-size:12px;line-height:1.6;color:var(--text-muted);">
+        <div style="margin-bottom:10px;">
+          <strong style="color:var(--text);">🎯 第一轮（现在-6月底）</strong><br>
+          • 听课后立即做对应章节真题<br>
+          • 错题要做好标记，标注知识点<br>
+          • 不懂的知识点回头再听课，不要堆积
+        </div>
+        <div style="margin-bottom:10px;">
+          <strong style="color:var(--text);">📖 第二轮（7月-8月10日）</strong><br>
+          • 背诵版课程+错题本复习<br>
+          • 每天复习1-2章内容<br>
+          • 整理思维导图/背诵笔记
+        </div>
+        <div>
+          <strong style="color:var(--text);">⚡ 第三轮（8月11日-考前）</strong><br>
+          • 全真模拟，熟悉考试节奏<br>
+          • 重点看错题本和背诵笔记<br>
+          • 考前一周看考前聚焦/押题
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // 当前阶段建议
+  const currentPhase = !xfDone || !mfDone ? '第一轮刑法民法' : (daysUntilExam > 60 ? '第一轮巩固' : '冲刺');
+  html += `
+    <div class="plan-card">
+      <div class="plan-title">💪 当前阶段建议</div>
+  `;
+  
+  if (!xfDone || !mfDone) {
+    html += `
+      <div style="font-size:12px;line-height:1.6;color:var(--text-muted);">
+        <div style="margin-bottom:8px;">🎯 <strong>当前任务：刑法+民法精讲</strong></div>
+        <div>• 每天保证 <strong>2-3小时</strong> 视频学习</div>
+        <div>• 看完一章做一章真题巩固</div>
+        <div>• 民法完成后立即开始刷题</div>
+      </div>
+    `;
+  } else if (daysUntilExam > 60) {
+    html += `
+      <div style="font-size:12px;line-height:1.6;color:var(--text-muted);">
+        <div style="margin-bottom:8px;">🎯 <strong>当前任务：巩固+刷题</strong></div>
+        <div>• 继续学习剩余科目，同时保持刷题</div>
+        <div>• 每天 <strong>1小时</strong> 刷题 + <strong>1.5小时</strong> 视频</div>
+        <div>• 错题要及时复习巩固</div>
+      </div>
+    `;
+  } else {
+    html += `
+      <div style="font-size:12px;line-height:1.6;color:var(--text-muted);">
+        <div style="margin-bottom:8px;">🎯 <strong>当前任务：冲刺阶段</strong></div>
+        <div>• 每天1套模拟卷，计时练习</div>
+        <div>• 重点复习错题本</div>
+        <div>• 背诵笔记滚动复习</div>
+      </div>
+    `;
+  }
+  html += `</div>`;
   
   // 学习统计
   html += `
