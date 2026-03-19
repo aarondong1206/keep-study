@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>📚 英语六级学习进度与规划</title>
+<style>
+  :root {
+    --primary: #3b82f6;
+    --primary-light: #60a5fa;
+    --success: #10b981;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.05);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+  .header {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    color: white;
+    padding: 20px 16px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(59,130,246,0.3);
+  }
+  .header h1 { font-size: 18px; font-weight: 700; }
+  .header-sub { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+  .total-progress {
+    margin-top: 12px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .total-progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .total-progress-label { font-size: 12px; opacity: 0.9; }
+  .total-progress-val { font-size: 14px; font-weight: 700; }
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.25);
+    border-radius: 99px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 99px;
+    transition: width 0.5s ease;
+  }
+  .tabs {
+    display: flex;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    position: sticky;
+    top: 118px;
+    z-index: 90;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+  .tab-badge {
+    display: inline-block;
+    background: #f1f5f9;
+    color: var(--text-muted);
+    font-size: 10px;
+    padding: 1px 5px;
+    border-radius: 99px;
+    margin-left: 4px;
+  }
+  .tab.active .tab-badge { background: #ede9fe; color: var(--primary); }
+  .content { padding: 12px 12px 0; }
+  .subject-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .subject-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .subject-name { font-size: 13px; font-weight: 600; flex: 1; line-height: 1.4; padding-right: 8px; }
+  .subject-pct { font-size: 18px; font-weight: 700; color: var(--primary); flex-shrink: 0; }
+  .subject-stats { display: flex; gap: 12px; margin-bottom: 8px; }
+  .stat-item { font-size: 11px; color: var(--text-muted); }
+  .stat-item strong { color: var(--text); font-weight: 600; }
+  .subject-bar-wrap { background: #f1f5f9; border-radius: 99px; height: 5px; overflow: hidden; }
+  .subject-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    border-radius: 99px;
+    transition: width 0.5s ease;
+  }
+  .section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 0 6px;
+  }
+  .video-item {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.2s;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    border: 1px solid transparent;
+  }
+  .video-item:active { transform: scale(0.98); }
+  .video-item.done { background: #f0fdf4; border-color: #bbf7d0; }
+  .video-check {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    background: white;
+    font-size: 14px;
+  }
+  .video-item.done .video-check { background: var(--success); border-color: var(--success); }
+  .video-info { flex: 1; min-width: 0; }
+  .video-episode { font-size: 13px; font-weight: 500; line-height: 1.4; word-break: break-all; }
+  .video-item.done .video-episode { color: var(--text-muted); text-decoration: line-through; text-decoration-color: #86efac; }
+  .video-meta { display: flex; align-items: center; gap: 8px; margin-top: 3px; flex-wrap: wrap; }
+  .video-duration { font-size: 11px; color: var(--text-muted); }
+  .video-subject-tag {
+    font-size: 10px;
+    background: #ede9fe;
+    color: var(--primary);
+    padding: 1px 6px;
+    border-radius: 99px;
+    font-weight: 500;
+  }
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    flex-shrink: 0;
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .filter-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+  .search-wrap { position: relative; margin-bottom: 10px; }
+  .search-input {
+    width: 100%;
+    padding: 9px 12px 9px 36px;
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    font-size: 13px;
+    background: var(--card);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--primary); }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
+  .empty { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; }
+  .empty-icon { font-size: 40px; margin-bottom: 8px; }
+  .toast {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1e293b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 999;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    padding: 8px 0 env(safe-area-inset-bottom, 8px);
+    z-index: 100;
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 4px 0;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 500;
+    transition: color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-item.active { color: var(--primary); }
+  .nav-icon { font-size: 20px; }
+  .page { display: none; }
+  .page.active { display: block; }
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+  .pop-anim { animation: pop 0.3s ease; }
+  
+  /* 计划页面样式 */
+  .plan-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+  }
+  .plan-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .plan-stat {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .plan-stat:last-child { border-bottom: none; }
+  .plan-label { font-size: 12px; color: var(--text-muted); }
+  .plan-value { font-size: 13px; font-weight: 600; }
+  .plan-value.warning { color: #f59e0b; }
+  .plan-value.danger { color: #ef4444; }
+  .plan-value.success { color: var(--success); }
+  .daily-target {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    color: white;
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .daily-target-num { font-size: 32px; font-weight: 700; }
+  .daily-target-label { font-size: 12px; opacity: 0.9; }
+  .daily-target-time { font-size: 14px; margin-top: 4px; opacity: 0.85; }
+  .alert-box {
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .alert-box.warning { background: #fffbeb; border: 1px solid #fcd34d; color: #92400e; }
+  .alert-box.danger { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+  .alert-box.tip { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
+  .alert-icon { margin-right: 6px; }
+  .next-video {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    border-left: 3px solid var(--primary);
+    cursor: pointer;
+  }
+  .next-video-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+  .next-video-name { font-size: 13px; font-weight: 500; }
+  .next-video-meta { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+  .countdown-box {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    color: white;
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .countdown-label { font-size: 11px; opacity: 0.8; }
+  .countdown-days { font-size: 28px; font-weight: 700; }
+  .countdown-date { font-size: 12px; opacity: 0.7; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📚 英语六级学习进度</h1>
+  <div class="header-sub">有道英语六级全程班（2026年6月考试）</div>
+  <div class="total-progress">
+    <div class="total-progress-row">
+      <span class="total-progress-label">总体进度</span>
+      <span class="total-progress-val" id="totalPct">0%</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="totalBar" style="width:0%"></div>
+    </div>
+    <div class="total-progress-row" style="margin-top:6px;margin-bottom:0">
+      <span class="total-progress-label" id="totalEpInfo">0 / 0 集</span>
+      <span class="total-progress-label" id="totalTimeInfo">0 / 0 小时</span>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active" onclick="switchPage('progress')" id="nav-progress">
+    <span class="nav-icon">📊</span><span>进度</span>
+  </div>
+  <div class="nav-item" onclick="switchPage('plan')" id="nav-plan">
+    <span class="nav-icon">📅</span><span>计划</span>
+  </div>
+  <div class="nav-item" onclick="switchPage('todo')" id="nav-todo">
+    <span class="nav-icon">📋</span><span>待看</span>
+  </div>
+  <div class="nav-item" onclick="switchPage('all')" id="nav-all">
+    <span class="nav-icon">🎬</span><span>全部</span>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="page active" id="page-progress">
+  <div class="content">
+    <div class="section-title">各科目进度</div>
+    <div id="subjectList"></div>
+  </div>
+</div>
+
+<div class="page" id="page-todo">
+  <div class="content">
+    <div class="filter-bar" id="todoFilter"></div>
+    <div id="todoList"></div>
+  </div>
+</div>
+
+<div class="page" id="page-all">
+  <div class="content">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" type="search" placeholder="搜索视频名称..." id="searchInput" oninput="renderAll()">
+    </div>
+    <div class="filter-bar" id="allFilter"></div>
+    <div id="allList"></div>
+  </div>
+</div>
+
+<div class="page" id="page-plan">
+  <div class="content" id="planContent">
+    <!-- 计划内容由JS动态生成 -->
+  </div>
+</div>
+
+<script>
+const RAW_DATA = {"subjects": [{"name": "【有道六级全程班】听力课后训练（欧阳老师）", "short": "听力", "total": 10, "done": 2, "totalMin": 300, "doneMin": 60}, {"name": "【有道六级全程班】六级历年真题精讲", "short": "真题", "total": 15, "done": 0, "totalMin": 900, "doneMin": 0}, {"name": "【有道六级全程班】口试福利", "short": "口试", "total": 5, "done": 0, "totalMin": 100, "doneMin": 0}, {"name": "【有道六级全程班】六级词汇-核心必刷词", "short": "词汇", "total": 20, "done": 5, "totalMin": 300, "doneMin": 75}, {"name": "【有道六级全程班】六级技巧-核心必修课", "short": "技巧", "total": 12, "done": 0, "totalMin": 480, "doneMin": 0}, {"name": "【有道六级全程班】全真模考", "short": "模考", "total": 5, "done": 0, "totalMin": 450, "doneMin": 0}], "videos": [{"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第1讲：场景对话", "duration": "26:11", "durationMin": 26, "done": true}, {"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第2讲：短文理解", "duration": "27:12", "durationMin": 27, "done": true}, {"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第3讲：长对话", "duration": "28:13", "durationMin": 28, "done": false}, {"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第4讲：讲座", "duration": "29:14", "durationMin": 29, "done": false}, {"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第5讲：场景对话", "duration": "25:15", "durationMin": 25, "done": false}, {"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第6讲：短文理解", "duration": "26:16", "durationMin": 26, "done": false}, {"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第7讲：长对话", "duration": "27:17", "durationMin": 27, "done": false}, {"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第8讲：讲座", "duration": "28:18", "durationMin": 28, "done": false}, {"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第9讲：场景对话", "duration": "29:19", "durationMin": 29, "done": false}, {"subject": "【有道六级全程班】听力课后训练（欧阳老师）", "episode": "听力第10讲：短文理解", "duration": "25:20", "durationMin": 25, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第1套：阅读精讲", "duration": "56:21", "durationMin": 56, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第2套：听力精讲", "duration": "57:22", "durationMin": 57, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第3套：写作精讲", "duration": "58:23", "durationMin": 58, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第4套：翻译精讲", "duration": "59:24", "durationMin": 59, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第5套：阅读精讲", "duration": "60:25", "durationMin": 60, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第6套：听力精讲", "duration": "61:26", "durationMin": 61, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第7套：写作精讲", "duration": "62:27", "durationMin": 62, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第8套：翻译精讲", "duration": "63:28", "durationMin": 63, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第9套：阅读精讲", "duration": "64:29", "durationMin": 64, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第10套：听力精讲", "duration": "55:30", "durationMin": 55, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第11套：写作精讲", "duration": "56:31", "durationMin": 56, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第12套：翻译精讲", "duration": "57:32", "durationMin": 57, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第13套：阅读精讲", "duration": "58:33", "durationMin": 58, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第14套：听力精讲", "duration": "59:34", "durationMin": 59, "done": false}, {"subject": "【有道六级全程班】六级历年真题精讲", "episode": "真题第15套：写作精讲", "duration": "60:35", "durationMin": 60, "done": false}, {"subject": "【有道六级全程班】口试福利", "episode": "口试第1讲：自我介绍", "duration": "16:31", "durationMin": 16, "done": false}, {"subject": "【有道六级全程班】口试福利", "episode": "口试第2讲：问答", "duration": "17:32", "durationMin": 17, "done": false}, {"subject": "【有道六级全程班】口试福利", "episode": "口试第3讲：话题讨论", "duration": "18:33", "durationMin": 18, "done": false}, {"subject": "【有道六级全程班】口试福利", "episode": "口试第4讲：情景对话", "duration": "19:34", "durationMin": 19, "done": false}, {"subject": "【有道六级全程班】口试福利", "episode": "口试第5讲：自我介绍", "duration": "15:35", "durationMin": 15, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第1单元：高频词", "duration": "13:41", "durationMin": 13, "done": true}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第2单元：同义词", "duration": "14:42", "durationMin": 14, "done": true}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第3单元：词根词缀", "duration": "15:43", "durationMin": 15, "done": true}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第4单元：真题词汇", "duration": "16:44", "durationMin": 16, "done": true}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第5单元：高频词", "duration": "12:45", "durationMin": 12, "done": true}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第6单元：同义词", "duration": "13:46", "durationMin": 13, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第7单元：词根词缀", "duration": "14:47", "durationMin": 14, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第8单元：真题词汇", "duration": "15:48", "durationMin": 15, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第9单元：高频词", "duration": "16:49", "durationMin": 16, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第10单元：同义词", "duration": "12:50", "durationMin": 12, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第11单元：词根词缀", "duration": "13:51", "durationMin": 13, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第12单元：真题词汇", "duration": "14:52", "durationMin": 14, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第13单元：高频词", "duration": "15:53", "durationMin": 15, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第14单元：同义词", "duration": "16:54", "durationMin": 16, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第15单元：词根词缀", "duration": "12:55", "durationMin": 12, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第16单元：真题词汇", "duration": "13:56", "durationMin": 13, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第17单元：高频词", "duration": "14:57", "durationMin": 14, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第18单元：同义词", "duration": "15:58", "durationMin": 15, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第19单元：词根词缀", "duration": "16:59", "durationMin": 16, "done": false}, {"subject": "【有道六级全程班】六级词汇-核心必刷词", "episode": "词汇第20单元：真题词汇", "duration": "12:60", "durationMin": 12, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第1讲：阅读技巧", "duration": "36:01", "durationMin": 36, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第2讲：听力技巧", "duration": "37:02", "durationMin": 37, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第3讲：写作模板", "duration": "38:03", "durationMin": 38, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第4讲：翻译技巧", "duration": "39:04", "durationMin": 39, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第5讲：阅读技巧", "duration": "40:05", "durationMin": 40, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第6讲：听力技巧", "duration": "41:06", "durationMin": 41, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第7讲：写作模板", "duration": "42:07", "durationMin": 42, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第8讲：翻译技巧", "duration": "43:08", "durationMin": 43, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第9讲：阅读技巧", "duration": "44:09", "durationMin": 44, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第10讲：听力技巧", "duration": "35:10", "durationMin": 35, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第11讲：写作模板", "duration": "36:11", "durationMin": 36, "done": false}, {"subject": "【有道六级全程班】六级技巧-核心必修课", "episode": "技巧第12讲：翻译技巧", "duration": "37:12", "durationMin": 37, "done": false}, {"subject": "【有道六级全程班】全真模考", "episode": "模考第1套：全真模拟与解析", "duration": "86:01", "durationMin": 86, "done": false}, {"subject": "【有道六级全程班】全真模考", "episode": "模考第2套：全真模拟与解析", "duration": "87:02", "durationMin": 87, "done": false}, {"subject": "【有道六级全程班】全真模考", "episode": "模考第3套：全真模拟与解析", "duration": "88:03", "durationMin": 88, "done": false}, {"subject": "【有道六级全程班】全真模考", "episode": "模考第4套：全真模拟与解析", "duration": "89:04", "durationMin": 89, "done": false}, {"subject": "【有道六级全程班】全真模考", "episode": "模考第5套：全真模拟与解析", "duration": "85:05", "durationMin": 85, "done": false}]};
+
+// ===== STATE =====
+// Build subject short name map
+const subjectShortMap = {};
+RAW_DATA.subjects.forEach(s => { subjectShortMap[s.name] = s.short; });
+
+// Load saved state from localStorage
+const STORAGE_KEY = 'lawStudyProgress_v1';
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return null;
+}
+function saveState() {
+  const doneSet = videos.filter(v => v.done).map((v,i) => videos.indexOf(v));
+  // Save as array of done indices
+  const doneIndices = [];
+  videos.forEach((v, i) => { if (v.done) doneIndices.push(i); });
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ doneIndices }));
+}
+
+// Initialize videos with saved state
+let videos = RAW_DATA.videos.map((v, i) => ({ ...v, id: i }));
+const savedState = loadState();
+if (savedState && savedState.doneIndices) {
+  savedState.doneIndices.forEach(i => {
+    if (videos[i]) videos[i].done = true;
+  });
+} else {
+  // Use original data from xlsx
+}
+
+// ===== COMPUTED =====
+function getSubjectStats() {
+  const stats = {};
+  RAW_DATA.subjects.forEach(s => {
+    stats[s.name] = { name: s.name, short: s.short, total: 0, done: 0, totalMin: 0, doneMin: 0 };
+  });
+  videos.forEach(v => {
+    if (stats[v.subject]) {
+      stats[v.subject].total++;
+      stats[v.subject].totalMin += v.durationMin;
+      if (v.done) {
+        stats[v.subject].done++;
+        stats[v.subject].doneMin += v.durationMin;
+      }
+    }
+  });
+  return Object.values(stats);
+}
+
+function getTotalStats() {
+  let total = 0, done = 0, totalMin = 0, doneMin = 0;
+  videos.forEach(v => {
+    total++;
+    totalMin += v.durationMin;
+    if (v.done) { done++; doneMin += v.durationMin; }
+  });
+  return { total, done, totalMin, doneMin };
+}
+
+// ===== PAGES =====
+let currentPage = 'progress';
+let todoFilter = 'all';
+let allFilter = 'all';
+
+function switchPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('nav-' + page).classList.add('active');
+  currentPage = page;
+  if (page === 'progress') renderProgress();
+  else if (page === 'todo') renderTodo();
+  else if (page === 'all') renderAll();
+  else if (page === 'plan') renderPlan();
+}
+
+// ===== RENDER HEADER =====
+function renderHeader() {
+  const s = getTotalStats();
+  const pct = s.total > 0 ? Math.round(s.done / s.total * 100) : 0;
+  document.getElementById('totalPct').textContent = pct + '%';
+  document.getElementById('totalBar').style.width = pct + '%';
+  document.getElementById('totalEpInfo').textContent = s.done + ' / ' + s.total + ' 集';
+  document.getElementById('totalTimeInfo').textContent = Math.round(s.doneMin/60) + ' / ' + Math.round(s.totalMin/60) + ' 小时';
+}
+
+// ===== RENDER PROGRESS =====
+function renderProgress() {
+  const stats = getSubjectStats();
+  const container = document.getElementById('subjectList');
+  container.innerHTML = stats.map(s => {
+    const pct = s.total > 0 ? Math.round(s.done / s.total * 100) : 0;
+    const doneH = (s.doneMin / 60).toFixed(1);
+    const totalH = (s.totalMin / 60).toFixed(1);
+    return `<div class="subject-card">
+      <div class="subject-header">
+        <div class="subject-name">${s.short}</div>
+        <div class="subject-pct">${pct}%</div>
+      </div>
+      <div class="subject-stats">
+        <div class="stat-item">集数 <strong>${s.done}/${s.total}</strong></div>
+        <div class="stat-item">时长 <strong>${doneH}/${totalH}h</strong></div>
+      </div>
+      <div class="subject-bar-wrap">
+        <div class="subject-bar-fill" style="width:${pct}%"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== RENDER TODO =====
+function renderTodo() {
+  const subjects = RAW_DATA.subjects;
+  const filterBar = document.getElementById('todoFilter');
+  filterBar.innerHTML = [
+    { key: 'all', label: '全部' },
+    ...subjects.map(s => ({ key: s.name, label: s.short }))
+  ].map(f => `<button class="filter-btn ${todoFilter === f.key ? 'active' : ''}" onclick="setTodoFilter('${f.key.replace(/'/g, "\'")}')">${f.label}</button>`).join('');
+
+  const todoVideos = videos.filter(v => !v.done && (todoFilter === 'all' || v.subject === todoFilter));
+  const container = document.getElementById('todoList');
+  if (todoVideos.length === 0) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">🎉</div>没有待看视频了！</div>';
+    return;
+  }
+  container.innerHTML = todoVideos.map(v => renderVideoItem(v, true)).join('');
+}
+
+function setTodoFilter(key) {
+  todoFilter = key;
+  renderTodo();
+}
+
+// ===== RENDER ALL =====
+function renderAll() {
+  const subjects = RAW_DATA.subjects;
+  const filterBar = document.getElementById('allFilter');
+  filterBar.innerHTML = [
+    { key: 'all', label: '全部' },
+    ...subjects.map(s => ({ key: s.name, label: s.short }))
+  ].map(f => `<button class="filter-btn ${allFilter === f.key ? 'active' : ''}" onclick="setAllFilter('${f.key.replace(/'/g, "\'")}')">${f.label}</button>`).join('');
+
+  const query = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+  let filtered = videos.filter(v => {
+    const matchSubject = allFilter === 'all' || v.subject === allFilter;
+    const matchSearch = !query || v.episode.toLowerCase().includes(query) || subjectShortMap[v.subject]?.toLowerCase().includes(query);
+    return matchSubject && matchSearch;
+  });
+
+  const container = document.getElementById('allList');
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>没有找到相关视频</div>';
+    return;
+  }
+  container.innerHTML = filtered.map(v => renderVideoItem(v, false)).join('');
+}
+
+function setAllFilter(key) {
+  allFilter = key;
+  renderAll();
+}
+
+// ===== RENDER VIDEO ITEM =====
+function renderVideoItem(v, showSubjectTag) {
+  const doneClass = v.done ? 'done' : '';
+  const checkContent = v.done ? '✓' : '';
+  const checkStyle = v.done ? 'color:white;font-weight:700;' : '';
+  const tag = showSubjectTag ? `<span class="video-subject-tag">${subjectShortMap[v.subject] || ''}</span>` : '';
+  return `<div class="video-item ${doneClass}" onclick="toggleVideo(${v.id})" id="vi-${v.id}">
+    <div class="video-check" id="vc-${v.id}" style="${checkStyle}">${checkContent}</div>
+    <div class="video-info">
+      <div class="video-episode">${v.episode}</div>
+      <div class="video-meta">
+        <span class="video-duration">⏱ ${v.duration}</span>
+        ${tag}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ===== TOGGLE VIDEO =====
+function toggleVideo(id) {
+  const v = videos[id];
+  if (!v) return;
+  v.done = !v.done;
+  saveState();
+  renderHeader();
+
+  // Update DOM in place for smooth UX
+  const el = document.getElementById('vi-' + id);
+  const vc = document.getElementById('vc-' + id);
+  if (el && vc) {
+    if (v.done) {
+      el.classList.add('done');
+      vc.textContent = '✓';
+      vc.style.color = 'white';
+      vc.style.fontWeight = '700';
+      vc.classList.add('pop-anim');
+      setTimeout(() => vc.classList.remove('pop-anim'), 300);
+      showToast('✅ 已完成！继续加油 💪');
+    } else {
+      el.classList.remove('done');
+      vc.textContent = '';
+      vc.style.color = '';
+      vc.style.fontWeight = '';
+      showToast('↩️ 已取消完成');
+    }
+    // Update episode text style
+    const ep = el.querySelector('.video-episode');
+    if (ep) {
+      ep.style.textDecoration = v.done ? 'line-through' : '';
+      ep.style.color = v.done ? 'var(--text-muted)' : '';
+    }
+  }
+
+  // If on todo page, remove item after a short delay
+  if (currentPage === 'todo' && v.done && el) {
+    setTimeout(() => {
+      el.style.transition = 'all 0.3s';
+      el.style.opacity = '0';
+      el.style.transform = 'translateX(20px)';
+      setTimeout(() => renderTodo(), 350);
+    }, 600);
+  }
+
+  // Update progress page if visible
+  if (currentPage === 'progress') renderProgress();
+}
+
+// ===== TOAST =====
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ===== PLAN PAGE =====
+function renderPlan() {
+  const container = document.getElementById('planContent');
+  
+  // 计算总进度
+  let totalVideos = 0, doneVideos = 0, totalMin = 0, doneMin = 0;
+  RAW_DATA.subjects.forEach(s => {
+    totalVideos += s.total;
+    doneVideos += s.done;
+    totalMin += s.totalMin;
+    doneMin += s.doneMin;
+  });
+  
+  const remainingMin = totalMin - doneMin;
+  const remainingVideos = totalVideos - doneVideos;
+  
+  // 法考客观题考试日期 (2026年9月)
+  const examDate = new Date('2026-06-15');
+  const today = new Date();
+  const daysUntilExam = Math.ceil((examDate - today) / (1000 * 60 * 60 * 24));
+  
+  // ===== 核心规划：学完听力词汇后开始做真题 =====
+  // 第一轮：基础模块（3月-4月完成听力+词汇，4月开始做真题，5月底完成第一轮）
+  // 这种方式减轻后期压力，且做真题能巩固所学
+  
+  // 计算听力+词汇总时长
+  const xfMin = RAW_DATA.subjects[0].totalMin;
+  const mfMin = RAW_DATA.subjects[1].totalMin;
+  const xfDoneMin = RAW_DATA.subjects[0].doneMin;
+  const mfDoneMin = RAW_DATA.subjects[1].doneMin;
+  const xfRemaining = RAW_DATA.subjects[0].totalMin - RAW_DATA.subjects[0].doneMin;
+  const mfRemaining = RAW_DATA.subjects[1].totalMin - RAW_DATA.subjects[1].doneMin;
+  
+  // 听力词汇完成后开始做真题的日期
+  const startPracticeDate = new Date('2026-04-15'); // 建议4月15日开始做真题
+  
+  // 计算各阶段时间
+  const daysUntilStartPractice = Math.ceil((startPracticeDate - today) / (1000 * 60 * 60 * 24));
+  
+  // 听力词汇阶段的每日学习量
+  const xfmfRemaining = xfRemaining + mfRemaining;
+  const dailyVideoForXfmf = daysUntilStartPractice > 0 ? Math.ceil(xfmfRemaining / daysUntilStartPractice) : xfmfRemaining;
+  
+  // 做真题阶段（4月中-5月底，约45天）
+  const round1End = new Date('2026-05-30');
+  const daysForPractice = Math.ceil((round1End - startPracticeDate) / (1000 * 60 * 60 * 24));
+  
+  // 剩余科目视频学习 + 持续刷题
+  const otherSubjectMin = remainingMin - xfRemaining - mfRemaining;
+  const dailyVideoForOthers = daysForPractice > 0 ? Math.ceil(otherSubjectMin / daysForPractice) : otherSubjectMin;
+  
+  // 刷题时间（每天1-2小时）
+  const dailyPracticeMin = 60; // 每天1小时刷题
+  
+  // 总每日学习时间
+  const totalDailyMin = dailyVideoForXfmf + dailyPracticeMin;
+  
+  // 计算听力完成后的下一科目
+  const nextSubject = RAW_DATA.subjects.find(s => s.done < s.total);
+  let nextVideo = null;
+  if (nextSubject) {
+    nextVideo = RAW_DATA.videos.find(v => v.subject === nextSubject.name && !v.done);
+  }
+  
+  // ===== 各科目完成时间建议 =====
+  const subjectSchedule = [
+    { name: '听力课后训练', short: '听力', deadline: '2026-05-01', current: RAW_DATA.subjects[0] },
+    { name: '六级历年真题精讲', short: '真题', deadline: '2026-05-20', current: RAW_DATA.subjects[1] },
+    { name: '口试福利', short: '口试', deadline: '2026-05-25', current: RAW_DATA.subjects[2] },
+    { name: '六级词汇-核心必刷词', short: '词汇', deadline: '2026-05-10', current: RAW_DATA.subjects[3] },
+    { name: '六级技巧-核心必修课', short: '技巧', deadline: '2026-06-05', current: RAW_DATA.subjects[4] },
+    { name: '全真模考', short: '模考', deadline: '2026-06-12', current: RAW_DATA.subjects[5] }
+  ];
+  
+  // 检查是否应该开始刷题了
+  const xfDone = RAW_DATA.subjects[0].done >= RAW_DATA.subjects[0].total;
+  const mfDone = RAW_DATA.subjects[1].done >= RAW_DATA.subjects[1].total;
+  const canStartPractice = xfDone || (RAW_DATA.subjects[0].done > 0 && daysUntilStartPractice < 0);
+  
+  // 生成警告和建议
+  let alerts = [];
+  
+  // 检查当前科目是否逾期
+  const currentSubj = subjectSchedule.find(s => s.current.done < s.current.total);
+  if (currentSubj) {
+    const deadline = new Date(currentSubj.deadline);
+    const daysToDeadline = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+    const remainingInSubj = currentSubj.current.total - currentSubj.current.done;
+    const subjRemainingMin = currentSubj.current.totalMin - currentSubj.current.doneMin;
+    
+    if (daysToDeadline < 0) {
+      alerts.push({
+        type: 'danger',
+        icon: '🚨',
+        text: `<strong>${currentSubj.short}</strong> 已逾期 <strong>${Math.abs(daysToDeadline)} 天</strong>！尽快追赶进度。`
+      });
+    } else if (daysToDeadline < 7 && remainingInSubj > 10) {
+      alerts.push({
+        type: 'warning',
+        icon: '⚡',
+        text: `<strong>${currentSubj.short}</strong> 还剩 <strong>${daysToDeadline} 天</strong>，需完成 <strong>${remainingInSubj} 集</strong>。`
+      });
+    }
+  }
+  
+  // 刷题提醒
+  if (xfDone && mfDone) {
+    alerts.push({
+      type: 'tip',
+      icon: '🎯',
+      text: `<strong>听力词汇已学完！</strong>建议立即开始做真题，用真题巩固知识点。`
+    });
+  } else if (xfDone && !mfDone) {
+    alerts.push({
+      type: 'tip',
+      icon: '📝',
+      text: `听力学完了！继续学词汇，学完后可以开始做真题。`
+    });
+  }
+  
+  // 生成HTML
+  let html = `
+    <div class="countdown-box">
+      <div class="countdown-label">距2026年法考客观题</div>
+      <div class="countdown-days">${daysUntilExam} 天</div>
+      <div class="countdown-date">${examDate.toLocaleDateString('zh-CN', {month:'long', day:'numeric'})} 开考</div>
+    </div>
+    
+    <div class="alert-box" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border:none;color:white;">
+      <span class="alert-icon">💡</span><strong>核心策略：</strong>学完听力+词汇后开始做真题，减轻后期压力！
+    </div>
+  `;
+  
+  // 每日目标
+  if (!xfDone || !mfDone) {
+    html += `
+      <div class="daily-target">
+        <div class="daily-target-num">${Math.ceil(dailyVideoForXfmf / 60 * 10) / 10}h</div>
+        <div class="daily-target-label">听力词汇阶段 · 视频学习</div>
+        <div class="daily-target-time">预计 ${daysUntilStartPractice} 天后学完词汇，开始做真题</div>
+      </div>
+    `;
+  } else {
+    html += `
+      <div class="daily-target">
+        <div class="daily-target-num">${Math.ceil(dailyVideoForOthers / 60 * 10) / 10}h</div>
+        <div class="daily-target-label">巩固刷题阶段</div>
+        <div class="daily-target-time">视频 ${Math.ceil(dailyVideoForOthers / 60 * 10) / 10}h + 刷题 ${dailyPracticeMin}min/天</div>
+      </div>
+    `;
+  }
+  
+  // 警告区域
+  alerts.forEach(alert => {
+    html += `<div class="alert-box ${alert.type}"><span class="alert-icon">${alert.icon}</span>${alert.text}</div>`;
+  });
+  
+  // 下一集推荐
+  if (nextVideo) {
+    html += `
+      <div class="next-video" onclick="goToVideo('${nextSubject.name}', '${nextVideo.episode}')">
+        <div class="next-video-label">🎯 下一集推荐</div>
+        <div class="next-video-name">${nextVideo.episode}</div>
+        <div class="next-video-meta">${nextSubject.short} · ${nextVideo.duration}</div>
+      </div>
+    `;
+  }
+  
+  // 三轮复习时间表（更新版）
+  html += `
+    <div class="plan-card">
+      <div class="plan-title">📅 三轮复习规划（推荐）</div>
+      <div class="plan-stat">
+        <span class="plan-label">第一轮 · 精讲+刷题</span>
+        <span class="plan-value">3.18 - 5.30</span>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin:-4px 0 8px 0;padding-left:8px;">4月中完成听力词汇后开始做真题，持续到考前</div>
+      
+      <div class="plan-stat">
+        <span class="plan-label">第二轮 · 背诵强化</span>
+        <span class="plan-value">6.1 - 6.10</span>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin:-4px 0 8px 0;padding-left:8px;">真题强化+分题型练习+整理错题本</div>
+      
+      <div class="plan-stat">
+        <span class="plan-label">第三轮 · 冲刺</span>
+        <span class="plan-value">6.11 - 6.14</span>
+      </div>
+      <div style="font-size:11px;color:var(--text-muted);margin:-4px 0 0;padding-left:8px;">模拟考试+错题回顾+考前调整</div>
+    </div>
+  `;
+  
+  // 各科目完成时间表
+  html += `
+    <div class="plan-card">
+      <div class="plan-title">📋 科目学习时间表</div>
+  `;
+  
+  subjectSchedule.forEach(subj => {
+    const done = subj.current.done;
+    const total = subj.current.total;
+    const pct = Math.round(done / total * 100);
+    const deadline = new Date(subj.deadline);
+    const daysLeft = Math.ceil((deadline - today) / (1000 * 60 * 60 * 24));
+    const isOverdue = daysLeft < 0 && done < total;
+    const isDone = done >= total;
+    
+    let statusClass = '';
+    let statusText = '';
+    if (isDone) {
+      statusClass = 'success';
+      statusText = '✅ 已完成';
+    } else if (isOverdue) {
+      statusClass = 'danger';
+      statusText = `⚠️ 逾期${Math.abs(daysLeft)}天`;
+    } else if (daysLeft < 7 && done < total) {
+      statusClass = 'warning';
+      statusText = `剩${daysLeft}天`;
+    } else {
+      statusText = `${subj.deadline.slice(5)}截止`;
+    }
+    
+    html += `
+      <div class="plan-stat">
+        <span class="plan-label">${subj.short} <small style="color:var(--text-muted)">(${done}/${total} ${pct}%)</small></span>
+        <span class="plan-value ${statusClass}">${statusText}</span>
+      </div>
+    `;
+  });
+  
+  html += `</div>`;
+  
+  // 刷题建议（更新版）
+  html += `
+    <div class="plan-card">
+      <div class="plan-title">✏️ 刷题安排（核心！）</div>
+      <div class="plan-stat">
+        <span class="plan-label">5月中开始</span>
+        <span class="plan-value">听力+词汇真题（每科300-500题）</span>
+      </div>
+      <div class="plan-stat">
+        <span class="plan-label">6月</span>
+        <span class="plan-value">真题+技巧练习</span>
+      </div>
+      <div class="plan-stat">
+        <span class="plan-label">7月-8月中</span>
+        <span class="plan-value">分章节刷题2轮</span>
+      </div>
+      <div class="plan-stat">
+        <span class="plan-label">8月中-考前</span>
+        <span class="plan-value">每周2-3套模拟卷，计时</span>
+      </div>
+      <div style="margin-top:10px;padding:10px;background:#f0fdf4;border-radius:8px;font-size:12px;color:#166534;">
+        📊 <strong>目标</strong>：共刷 <strong>3000-5000题</strong>，正确率 <strong>65%+</strong> 较稳妥
+      </div>
+    </div>
+  `;
+  
+  // 学习统计
+  html += `
+    <div class="plan-card">
+      <div class="plan-title">📈 学习统计</div>
+      <div class="plan-stat">
+        <span class="plan-label">已完成</span>
+        <span class="plan-value success">${doneVideos} 集 (${Math.round(doneMin/60*10)/10}h)</span>
+      </div>
+      <div class="plan-stat">
+        <span class="plan-label">剩余（第一轮）</span>
+        <span class="plan-value">${remainingVideos} 集 (${Math.round(remainingMin/60*10)/10}h)</span>
+      </div>
+      <div class="plan-stat">
+        <span class="plan-label">精讲卷总时长</span>
+        <span class="plan-value">${Math.round(totalMin/60*10)/10}h</span>
+      </div>
+    </div>
+  `;
+  
+  container.innerHTML = html;
+}
+
+function goToVideo(subject, episode) {
+  // 切换到全部页面并搜索
+  switchPage('all');
+  document.getElementById('searchInput').value = episode;
+  renderAll();
+}
+
+// ===== INIT =====
+renderHeader();
+renderProgress();
+</script>
+</body>
+</html>
